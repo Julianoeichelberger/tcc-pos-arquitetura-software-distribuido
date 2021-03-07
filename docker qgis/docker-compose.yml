@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: nginx-web
+    container_name: nginx
+    ports:
+      - "80:80" 
+    depends_on:
+      - "web" 
   db:
     image: kartoza/postgis:9.6-2.4
     environment:
@@ -9,7 +19,7 @@ services:
 
   qgisserver:
     build:
-      dockerfile: ./qgis.dockerfile
+      dockerfile: ./docker/qgis.dockerfile
       context: .  
     hostname: qgis-server
     environment:
@@ -26,7 +36,7 @@ services:
 
   web: 
     build:
-      dockerfile: ./node.dockerfile
+      dockerfile: ./docker/node.dockerfile
       context: .  
     ports:
       - "5551:8080"
